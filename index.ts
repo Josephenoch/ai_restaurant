@@ -1,6 +1,6 @@
 import express, { Express, Request, Response , Application } from 'express';
 import dotenv from 'dotenv';
-import menuRouter from './Menu/menu.route';
+import menuRouter from './menu/menu.route';
 
 //For env File 
 dotenv.config();
