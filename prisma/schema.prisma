@@ -46,8 +46,8 @@ model Restaurant {
   id String @id @default(uuid())
   slug String @unique
   name String
-  customerRating String
-  michellinRating String
+  customerRating String?
+  michellinRating String?
   menuItems MenuItem[]
   orders Order[]
 }

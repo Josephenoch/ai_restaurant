@@ -4,6 +4,7 @@ import MenuService from "./menu.service";
 const menuService = new MenuService()
 
 export const GET_RESTAURANT_MENU_BY_ID = async (req: Request, res: Response) => {
+    // this would work for both the restaurant id and slug
     try{
         const id = req.params.id
         const menuItems = await menuService.getRestaurantMenu(id)
@@ -17,10 +18,9 @@ export const GET_RESTAURANT_MENU_BY_ID = async (req: Request, res: Response) => 
         res.status(200).send({
             data: menuItems,
             status: "success",
-            message: "Restaurant menu returned"
+            message: "Restaurant fetched successfully"
         })
     }catch(err: any){
-        console.log(err)
         res.status(500).send({
             err: err.message
         })

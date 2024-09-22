@@ -1,7 +1,6 @@
 // holds all the database queries and extra code useful for theis route
 
-import prisma from "../config/prisma.config"
-import { kebabCase } from 'lodash';  
+import prisma from '../config/prisma.config';
 
 type CreateNewMenuItemPropsType = {
     name: string,
@@ -12,32 +11,7 @@ type CreateNewMenuItemPropsType = {
     ingredients: string[],
 }
 
-prisma.$use(async (params, next) => {
-    if (params.model === "Restaurant" && params.action === 'create') {
-      const name = params.args.data.title;
-      let slug = kebabCase(name);  // Converts name to slug (e.g., 'My New Entry' -> 'my-new-entry')
-  
-      // Ensure the slug is unique
-      let uniqueSlug = slug;
-      let count = 1;
-  
-      while (true) {
-        const existingEntry = await prisma.restaurant.findUnique({
-          where: { slug: uniqueSlug },
-        });
-  
-        if (!existingEntry) break;
-  
-        uniqueSlug = `${slug}-${count}`;
-        count++;
-      }
-  
-      // Assign the unique slug
-      params.args.data.slug = uniqueSlug;
-    }
-  
-    return next(params);
-  });
+
 
 export default class MenuService {
 
@@ -55,11 +29,20 @@ export default class MenuService {
     }
 
 
-    public async getRestaurantMenu(slug: string) {
+    public async getRestaurantMenu(identifier: string) {
+        // uses the id or slug to search the db
+        const results =  await prisma.menuItem.findMany({
+            where: {
+                id: identifier
+            }
+        })
+        // if there is data with that identifier, return it
+        if(results[0]) return results
+        // if not search the db using the restuarant slug
         return await prisma.menuItem.findMany({
            where: {
             restaurant: {
-                slug
+                slug: identifier
             }
            }
         })

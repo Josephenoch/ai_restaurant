@@ -6,9 +6,10 @@ import menuRouter from './menu/menu.route';
 dotenv.config();
 
 const app: Application = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8080;
 
 app.use("/menu", menuRouter)
+app.use("/restaurant", menuRouter)
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to Express & TypeScript Server');
