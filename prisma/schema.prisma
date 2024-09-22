@@ -14,9 +14,39 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-  fullName String
-  email String @unique
-  password String
+  id          String   @id @default(uuid())
+  fullName    String
+  email       String   @unique
+  password    String
   phoneNumber String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt()
+}
+
+model MenuItem {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  ingredients String[]
+  calories    Int
+  price       Int
+  restaurantId String
+  restaurant  Restaurant @relation(fields:[restaurantId], references:[id], onDelete:Cascade)
+}
+
+model Order {
+  id String @id @default(uuid())
+  items String[] 
+  totalPrice Int
+  restaurantId String
+  restaurant  Restaurant @relation(fields:[restaurantId], references:[id], onDelete:Cascade)
+}
+
+model Restaurant {
+  id String @id @default(uuid())
+  name String
+  customerRating String
+  michellinRating String
+  menuItems MenuItem[]
+  orders Order[]
 }
