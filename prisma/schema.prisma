@@ -30,8 +30,8 @@ model MenuItem {
   ingredients String[]
   calories    Int
   price       Int
-  restaurantId String
-  restaurant  Restaurant @relation(fields:[restaurantId], references:[id], onDelete:Cascade)
+  restaurantSlug String
+  restaurant  Restaurant @relation(fields:[restaurantSlug], references:[slug], onDelete:Cascade)
 }
 
 model Order {
@@ -44,6 +44,7 @@ model Order {
 
 model Restaurant {
   id String @id @default(uuid())
+  slug String @unique
   name String
   customerRating String
   michellinRating String
