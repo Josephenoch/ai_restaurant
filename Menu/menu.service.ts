@@ -8,7 +8,7 @@ type CreateNewMenuItemPropsType = {
     calories: number,
     description: string,
     restaurantId: string,
-    ingredients: string[],
+    ingredients: string,
 }
 
 

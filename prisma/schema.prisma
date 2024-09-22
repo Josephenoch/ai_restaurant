@@ -9,8 +9,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -27,7 +27,7 @@ model MenuItem {
   id          String   @id @default(uuid())
   name        String
   description String
-  ingredients String[]
+  ingredients String
   calories    Int
   price       Int
   restaurantId String
@@ -36,7 +36,7 @@ model MenuItem {
 
 model Order {
   id String @id @default(uuid())
-  items String[] 
+  items String 
   totalPrice Int
   restaurantId String
   restaurant  Restaurant @relation(fields:[restaurantId], references:[id], onDelete:Cascade)
@@ -44,8 +44,8 @@ model Order {
 
 model Restaurant {
   id String @id @default(uuid())
-  slug String @unique
   name String
+  slug String @unique
   customerRating String?
   michellinRating String?
   menuItems MenuItem[]
