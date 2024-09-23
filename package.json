@@ -6,6 +6,7 @@
   "repository": "https://github.com/josephenoch/restaurant-api",
   "author": "Joseph Enoch",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "build": "npx tsc",
     "dev": "nodemon index.ts",
