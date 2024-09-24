@@ -36,7 +36,7 @@ export default class MenuService {
         if (params.model === "MenuItem" && params.action === "findMany") {
             const results:MenuItem[] = await next(params);
             const newResults = results.map(item=>{
-                return {...item, ingredients: item?.ingredients?.split(",")?.map(item=>item.trim())}
+                return {...item, ingredients: item?.ingredients?.split(",")?.map(item=>item?.trim())}
             })
             return newResults
         }
