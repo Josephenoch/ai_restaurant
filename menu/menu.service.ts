@@ -1,5 +1,6 @@
 // holds all the database queries and extra code useful for theis route
 
+import { MenuItem, Prisma } from '@prisma/client';
 import prisma from '../config/prisma.config';
 
 type CreateNewMenuItemPropsType = {
@@ -30,12 +31,24 @@ export default class MenuService {
 
 
     public async getRestaurantMenu(identifier: string) {
+
+    prisma.$use(async (params, next) => {
+        if (params.model === "MenuItem" && params.action === "findMany") {
+            const results:MenuItem[] = await next(params);
+            const newResults = results.map(item=>{
+                return {...item, ingredients: item.ingredients.split(",").map(item=>item.trim())}
+            })
+            return newResults
+        }
+    
+    });
         // uses the id or slug to search the db
         const results =  await prisma.menuItem.findMany({
             where: {
                 id: identifier
             }
         })
+       
         // if there is data with that identifier, return it
         if(results[0]) return results
         // if not search the db using the restuarant slug

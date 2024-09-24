@@ -25,6 +25,6 @@ export const GET_RESTAURANT_MENU_BY_ID = async (req: Request, res: Response) => 
             err: err.message
         })
     }
-    
+       
 }
 
