@@ -15,8 +15,11 @@ export const GET_RESTAURANT_MENU_BY_ID = async (req: Request, res: Response) => 
                 message: "No restaurant menu found"
             })
         }
+        const data = menuItems.map(item=>{
+            return {...item, ingredients: item?.ingredients?.split(",")?.map(item=>item?.trim())}
+        })
         return res.status(200).send({
-            data: menuItems,
+            data,
             status: "success",
             message: "Restaurant fetched successfully"
         })
@@ -25,6 +28,6 @@ export const GET_RESTAURANT_MENU_BY_ID = async (req: Request, res: Response) => 
             err: err.message
         })
     }
-       
+
 }
 
